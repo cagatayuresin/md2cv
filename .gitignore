@@ -8,8 +8,10 @@ venv/
 env/
 ENV/
 .venv/
+.venv-*/
 pip-log.txt
 pip-delete-this-directory.txt
+*.egg-info/
 
 # IDE
 .idea/
@@ -27,7 +29,12 @@ Thumbs.db
 # Project specific
 output/
 
-# Testing
+# Testing & coverage
 .pytest_cache/
 .coverage
+coverage.xml
 htmlcov/
+
+# Lint / format caches
+.ruff_cache/
+.mypy_cache/
