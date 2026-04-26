@@ -9,7 +9,10 @@ import yaml
 class MarkdownParser:
     """Parse Markdown content with YAML frontmatter and HTML support."""
 
-    FRONTMATTER_PATTERN = re.compile(r"^---\s*\n(.*?)\n---\s*\n", re.DOTALL)
+    # Anchored at the start of the document; bounded by literal `\n---...\n`
+    # delimiters and uses `[^\n]*` for the trailing whitespace on the fence
+    # lines (handles CRLF safely while staying linear-time, S5852).
+    FRONTMATTER_PATTERN = re.compile(r"\A---[^\n]*\n([\s\S]*?)\n---[^\n]*\n")
 
     def __init__(self, content: str):
         self.raw_content = content

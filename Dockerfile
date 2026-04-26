@@ -37,8 +37,11 @@ RUN useradd --create-home --uid 1000 md2cv
 
 WORKDIR /app
 COPY --from=builder /install /usr/local
-COPY --chown=md2cv:md2cv app/ ./app/
-COPY --chown=md2cv:md2cv templates/ ./templates/
+# Application code is intentionally owned by root (default) so the
+# unprivileged md2cv runtime user can read but not modify it. This makes
+# the image immutable at runtime and silences docker:S6504.
+COPY app/ ./app/
+COPY templates/ ./templates/
 
 USER md2cv
 
