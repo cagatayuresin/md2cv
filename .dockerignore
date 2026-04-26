@@ -1,12 +1,17 @@
 # Git
 .git
 .gitignore
+.github
 
 # Python
 __pycache__/
 *.py[cod]
+*$py.class
 venv/
 .venv/
+.venv-*/
+*.egg-info/
+.eggs/
 
 # IDE
 .idea/
@@ -14,16 +19,33 @@ venv/
 
 # OS
 .DS_Store
+Thumbs.db
 
-# Output (will be mounted as volume)
+# Testing & coverage
+tests/
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Lint / format caches
+.ruff_cache/
+.mypy_cache/
+
+# Output (mounted as volume in dev)
 output/
 
-# Documentation
+# Docs / examples (not needed in image)
 *.md
 !README.md
 LICENSE
 CHANGELOG.md
 CONTRIBUTING.md
-
-# Examples (will be mounted as volume)
 examples/
+
+# Dev-only configs
+pyproject.toml
+.pre-commit-config.yaml
+sonar-project.properties
+docker-compose.yml
+md2cv.sh

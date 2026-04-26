@@ -1,0 +1,119 @@
+html, body {
+    height: 100%;
+}
+
+.page {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-body {
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+.footer {
+    margin-top: auto;
+}
+
+#md-editor + .EasyMDEContainer {
+    height: 70vh;
+}
+
+.EasyMDEContainer .CodeMirror {
+    height: calc(70vh - 50px);
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+}
+
+#preview-frame {
+    width: 100%;
+    height: 70vh;
+    border: 0;
+    background: #ffffff;
+}
+
+.card .card-body.p-0 {
+    overflow: hidden;
+}
+
+/* Tame CodeMirror markdown highlighting so YAML frontmatter doesn't render */
+/* lines as giant setext headings that overflow into neighbouring panels.   */
+.EasyMDEContainer .CodeMirror,
+.EasyMDEContainer .CodeMirror pre {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 14px;
+    line-height: 1.45;
+}
+
+.EasyMDEContainer .CodeMirror .cm-header,
+.EasyMDEContainer .CodeMirror .cm-header-1,
+.EasyMDEContainer .CodeMirror .cm-header-2,
+.EasyMDEContainer .CodeMirror .cm-header-3,
+.EasyMDEContainer .CodeMirror .cm-header-4,
+.EasyMDEContainer .CodeMirror .cm-header-5,
+.EasyMDEContainer .CodeMirror .cm-header-6 {
+    font-size: inherit !important;
+    font-weight: 600 !important;
+    line-height: inherit !important;
+}
+
+.EasyMDEContainer .CodeMirror .cm-link,
+.EasyMDEContainer .CodeMirror .cm-url {
+    text-decoration: none !important;
+    font-size: inherit !important;
+}
+
+.EasyMDEContainer {
+    overflow: hidden;
+}
+
+/* Tabler/Bootstrap rules clobber EasyMDE's toolbar geometry. Reset them so   */
+/* every button is the same fixed size and they sit on a single row.          */
+.EasyMDEContainer .editor-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2px;
+    padding: 6px 8px;
+    border: 0;
+    border-bottom: 1px solid var(--tblr-border-color, #e6e7e9);
+    background: #fafbfc;
+}
+
+.EasyMDEContainer .editor-toolbar a,
+.EasyMDEContainer .editor-toolbar button {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 30px !important;
+    height: 30px !important;
+    min-width: 30px;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 1px solid transparent !important;
+    border-radius: 4px;
+    text-decoration: none !important;
+    color: inherit !important;
+    background: transparent !important;
+    line-height: 1 !important;
+    font-size: 14px;
+}
+
+.EasyMDEContainer .editor-toolbar a:hover,
+.EasyMDEContainer .editor-toolbar a.active {
+    background: rgba(0, 0, 0, 0.05) !important;
+    border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+.EasyMDEContainer .editor-toolbar i.separator {
+    display: inline-block;
+    width: 0;
+    height: 18px;
+    border-left: 1px solid var(--tblr-border-color, #d8dadf);
+    margin: 0 6px;
+    text-indent: -999em;
+}

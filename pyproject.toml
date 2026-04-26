@@ -1,0 +1,64 @@
+[project]
+name = "md2cv"
+version = "2.0.0"
+description = "Convert Markdown CVs to ATS-friendly PDF and DOCX (REST API + Web UI + CLI)."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+authors = [{ name = "Çağatay Üresin" }]
+keywords = ["cv", "resume", "markdown", "pdf", "docx", "ats", "fastapi"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--cov=app --cov-report=xml --cov-report=term-missing --cov-fail-under=85"
+asyncio_mode = "auto"
+filterwarnings = [
+    "ignore:'HTTP_413_REQUEST_ENTITY_TOO_LARGE' is deprecated:DeprecationWarning",
+]
+
+[tool.coverage.run]
+source = ["app"]
+branch = true
+omit = [
+    "app/__init__.py",
+    "app/web/*",
+]
+
+[tool.coverage.report]
+fail_under = 85
+show_missing = true
+skip_covered = false
+exclude_lines = [
+    "pragma: no cover",
+    "if __name__ == .__main__.:",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+]
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+extend-exclude = '''
+/(
+  | \.venv
+  | output
+  | templates
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 100
+known_first_party = ["app"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = ["output", "templates", "examples"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["B", "SIM"]
