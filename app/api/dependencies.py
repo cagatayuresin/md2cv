@@ -9,7 +9,7 @@ from app.api.schemas import MAX_MARKDOWN_BYTES
 limiter = Limiter(key_func=get_remote_address, default_limits=["240/minute"])
 
 
-async def enforce_body_size(request: Request) -> None:
+def enforce_body_size(request: Request) -> None:
     """Reject requests whose Content-Length exceeds the markdown size cap."""
     content_length = request.headers.get("content-length")
     if content_length is None:

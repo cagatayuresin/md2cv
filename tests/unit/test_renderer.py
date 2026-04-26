@@ -13,6 +13,15 @@ def test_invalid_template_raises_value_error() -> None:
     assert "not found" in str(exc_info.value).lower()
 
 
+@pytest.mark.parametrize(
+    "bad_name",
+    ["../etc/passwd", "ats classic", "foo/bar", "", ".", "..", "foo$bar", "a/b\\c"],
+)
+def test_path_traversal_template_name_rejected(bad_name: str) -> None:
+    with pytest.raises(ValueError):
+        TemplateRenderer(bad_name)
+
+
 def test_render_includes_meta_name() -> None:
     renderer = TemplateRenderer("ats_classic")
     html = renderer.render({"name": "Jane Doe"}, "<p>Body</p>")

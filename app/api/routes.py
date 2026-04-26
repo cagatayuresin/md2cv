@@ -28,17 +28,17 @@ CONTENT_TYPES = {
 }
 
 
-@router.get("/health", response_model=HealthResponse, tags=["meta"])
+@router.get("/health", tags=["meta"])
 async def health() -> HealthResponse:
     return HealthResponse()
 
 
-@router.get("/version", response_model=VersionResponse, tags=["meta"])
+@router.get("/version", tags=["meta"])
 async def version() -> VersionResponse:
     return VersionResponse(version=__version__)
 
 
-@router.get("/templates", response_model=TemplatesResponse, tags=["templates"])
+@router.get("/templates", tags=["templates"])
 async def templates() -> TemplatesResponse:
     items: list[TemplateInfo] = []
     for name in TemplateRenderer.list_templates(TEMPLATES_DIR):

@@ -1,5 +1,6 @@
 """Jinja2 template renderer for CV templates."""
 
+import re
 from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader
@@ -7,11 +8,21 @@ from jinja2 import Environment, FileSystemLoader
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 TEMPLATES_DIR = PROJECT_ROOT / "templates"
 
+# Defense-in-depth against path traversal — the API layer also validates this
+# pattern, but enforcing it here means direct library callers can't read
+# arbitrary files via crafted template names (S5131).
+_SAFE_TEMPLATE_NAME = re.compile(r"^[A-Za-z0-9_-]+$")
+
 
 class TemplateRenderer:
     """Render CV content using Jinja2 templates."""
 
     def __init__(self, template_name: str, templates_dir: Path | None = None):
+        if not isinstance(template_name, str) or not _SAFE_TEMPLATE_NAME.match(template_name):
+            raise ValueError(
+                f"Template '{template_name}' not found. "
+                "Template names may only contain letters, digits, '_' or '-'."
+            )
         self.template_name = template_name
         self.templates_root = Path(templates_dir) if templates_dir else TEMPLATES_DIR
         self.template_dir = self.templates_root / template_name

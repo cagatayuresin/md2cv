@@ -51,21 +51,23 @@
                             <select id="template-select" class="form-select"></select>
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label">
-                                <i class="ti ti-file-export"></i> Formats
-                            </label>
-                            <div class="d-flex gap-3">
-                                <label class="form-check form-check-inline">
-                                    <input class="form-check-input format-check" type="checkbox"
-                                           value="pdf" checked>
-                                    <span class="form-check-label">PDF</span>
-                                </label>
-                                <label class="form-check form-check-inline">
-                                    <input class="form-check-input format-check" type="checkbox"
-                                           value="docx">
-                                    <span class="form-check-label">DOCX</span>
-                                </label>
-                            </div>
+                            <fieldset class="m-0 p-0 border-0">
+                                <legend class="form-label fs-5 mb-1">
+                                    <i class="ti ti-file-export"></i> Formats
+                                </legend>
+                                <div class="d-flex gap-3">
+                                    <label class="form-check form-check-inline" for="format-pdf">
+                                        <input id="format-pdf" class="form-check-input format-check"
+                                               type="checkbox" value="pdf" checked>
+                                        <span class="form-check-label">PDF</span>
+                                    </label>
+                                    <label class="form-check form-check-inline" for="format-docx">
+                                        <input id="format-docx" class="form-check-input format-check"
+                                               type="checkbox" value="docx">
+                                        <span class="form-check-label">DOCX</span>
+                                    </label>
+                                </div>
+                            </fieldset>
                         </div>
                         <div class="col-md-4 text-md-end">
                             <button id="convert-btn" class="btn btn-primary">

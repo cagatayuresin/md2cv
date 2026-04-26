@@ -60,17 +60,39 @@ Backend engineer with a focus on distributed systems, observability, and develop
         ],
     });
 
+    const ALERT_KINDS = new Set(['danger', 'warning', 'success', 'info']);
+
     function showAlert(kind, message) {
-        const safe = String(message);
-        alertContainer.innerHTML = `
-            <div class="alert alert-${kind} alert-dismissible" role="alert">
-                <div>${safe}</div>
-                <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
-            </div>`;
+        const safeKind = ALERT_KINDS.has(kind) ? kind : 'info';
+        alertContainer.replaceChildren();
+
+        const wrapper = document.createElement('div');
+        wrapper.className = `alert alert-${safeKind} alert-dismissible`;
+        wrapper.setAttribute('role', 'alert');
+
+        const body = document.createElement('div');
+        body.textContent = String(message);
+        wrapper.appendChild(body);
+
+        const close = document.createElement('a');
+        close.className = 'btn-close';
+        close.setAttribute('data-bs-dismiss', 'alert');
+        close.setAttribute('aria-label', 'close');
+        wrapper.appendChild(close);
+
+        alertContainer.appendChild(wrapper);
     }
 
     function clearAlert() {
-        alertContainer.innerHTML = '';
+        alertContainer.replaceChildren();
+    }
+
+    function setButtonContent(button, iconClass, text) {
+        button.replaceChildren();
+        const icon = document.createElement('i');
+        icon.className = iconClass;
+        button.appendChild(icon);
+        button.appendChild(document.createTextNode(' ' + text));
     }
 
     function getSelectedFormats() {
@@ -85,7 +107,7 @@ Backend engineer with a focus on distributed systems, observability, and develop
                 throw new Error(`HTTP ${res.status}`);
             }
             const data = await res.json();
-            templateSelect.innerHTML = '';
+            templateSelect.replaceChildren();
             data.templates.forEach((tpl) => {
                 const opt = document.createElement('option');
                 opt.value = tpl.name;
@@ -162,7 +184,7 @@ Backend engineer with a focus on distributed systems, observability, and develop
             return;
         }
         convertBtn.disabled = true;
-        convertBtn.innerHTML = '<i class="ti ti-loader"></i> Converting...';
+        setButtonContent(convertBtn, 'ti ti-loader', 'Converting...');
         try {
             const res = await fetch('/api/convert', {
                 method: 'POST',
@@ -187,7 +209,7 @@ Backend engineer with a focus on distributed systems, observability, and develop
             showAlert('danger', `Conversion failed: ${err.message}`);
         } finally {
             convertBtn.disabled = false;
-            convertBtn.innerHTML = '<i class="ti ti-download"></i> Convert &amp; Download';
+            setButtonContent(convertBtn, 'ti ti-download', 'Convert & Download');
         }
     });
 

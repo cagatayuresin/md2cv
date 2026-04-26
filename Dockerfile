@@ -21,8 +21,10 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1
 
-# WeasyPrint native dependencies + sane fallback fonts
-RUN apt-get update && apt-get install -y --no-install-recommends \
+# WeasyPrint native dependencies + fallback fonts + the unprivileged
+# runtime user (single RUN to avoid an extra image layer, S7031).
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
         libpango-1.0-0 \
         libpangocairo-1.0-0 \
         libgdk-pixbuf-2.0-0 \
@@ -31,9 +33,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libglib2.0-0 \
         fonts-liberation \
         fonts-dejavu-core \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN useradd --create-home --uid 1000 md2cv
+    && rm -rf /var/lib/apt/lists/* \
+    && useradd --create-home --uid 1000 md2cv
 
 WORKDIR /app
 COPY --from=builder /install /usr/local
