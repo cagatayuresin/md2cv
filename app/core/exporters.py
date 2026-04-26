@@ -224,8 +224,11 @@ class DOCXExporter:
 
     @staticmethod
     def _clean_markdown(text: str) -> str:
-        text = re.sub(r"\*\*(.+?)\*\*", r"\1", text)
-        text = re.sub(r"\*(.+?)\*", r"\1", text)
-        text = re.sub(r"\[(.+?)\]\(.+?\)", r"\1", text)
+        # Bounded character classes (no `.+?` with overlapping delimiters) so
+        # these substitutions can't blow up via catastrophic backtracking on
+        # adversarial input (S5852).
+        text = re.sub(r"\*\*([^*]+)\*\*", r"\1", text)
+        text = re.sub(r"\*([^*]+)\*", r"\1", text)
+        text = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r"\1", text)
         text = re.sub(r"<[^>]+>", "", text)
         return text.strip()
