@@ -7,8 +7,8 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  test-and-scan:
-    name: Test + SonarQube
+  test:
+    name: Test (pytest + coverage)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -49,11 +49,8 @@ jobs:
           path: coverage.xml
           if-no-files-found: warn
 
-      - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@fd88b7d7ccbaefd23d8f36f73b59db7a3d246602 # v6.0.0
-        # Soft-fail: SonarCloud "Automatic Analysis" must be disabled in the
-        # project settings for this CI scan to succeed. While that toggle is
-        # still on, log the error but don't block the build.
-        continue-on-error: true
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      # SonarCloud is wired to this repo via "Automatic Analysis", which runs
+      # outside of GitHub Actions. To enable CI-driven Sonar scanning instead
+      # (and push the coverage.xml artifact above), disable Automatic Analysis
+      # in the project settings and re-add a SonarSource/sonarqube-scan-action
+      # step here with SONAR_TOKEN.
