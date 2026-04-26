@@ -51,5 +51,9 @@ jobs:
 
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@fd88b7d7ccbaefd23d8f36f73b59db7a3d246602 # v6.0.0
+        # Soft-fail: SonarCloud "Automatic Analysis" must be disabled in the
+        # project settings for this CI scan to succeed. While that toggle is
+        # still on, log the error but don't block the build.
+        continue-on-error: true
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
